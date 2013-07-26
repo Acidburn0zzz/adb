@@ -67,7 +67,7 @@ PROGRAMS = $(bin_PROGRAMS)
 am__adb_SOURCES_DIST = adb.c console.c transport.c transport_local.c \
 	transport_usb.c commandline.c adb_client.c services.c \
 	file_sync_client.c utils.c usb_vendors.c fdevent.c sockets.c \
-	usb_osx.c get_my_path_darwin.c usb_linux.c get_my_path_linux.c
+	usb_osx.c get_my_path_darwin.c get_my_path_freebsd.c usb_linux.c get_my_path_linux.c usb_libusb.c
 @HOST_IS_DARWIN_FALSE@@HOST_IS_LINUX_TRUE@am__objects_1 = adb-usb_linux.$(OBJEXT) \
 @HOST_IS_DARWIN_FALSE@@HOST_IS_LINUX_TRUE@	adb-get_my_path_linux.$(OBJEXT)
 @HOST_IS_DARWIN_TRUE@am__objects_1 = adb-usb_osx.$(OBJEXT) \
@@ -78,6 +78,7 @@ am_adb_OBJECTS = adb-adb.$(OBJEXT) adb-console.$(OBJEXT) \
 	adb-adb_client.$(OBJEXT) adb-services.$(OBJEXT) \
 	adb-file_sync_client.$(OBJEXT) adb-utils.$(OBJEXT) \
 	adb-usb_vendors.$(OBJEXT) adb-fdevent.$(OBJEXT) \
+@HOST_IS_FREEBSD_TRUE@ adb-usb_libusb.$(OBJEXT) adb-get_my_path_freebsd.$(OBJEXT) \
 	adb-sockets.$(OBJEXT) $(am__objects_1)
 adb_OBJECTS = $(am_adb_OBJECTS)
 adb_DEPENDENCIES = $(top_srcdir)/libcutils/libcutils.a \
@@ -143,6 +144,7 @@ LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = -lpthread -lz $(libs_deps)
+@HOST_IS_FREEBSD_TRUE@LIBS += -lusb
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
@@ -568,6 +570,13 @@ adb-get_my_path_darwin.o: get_my_path_darwin.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(adb_CFLAGS) $(CFLAGS) -c -o adb-get_my_path_darwin.o `test -f 'get_my_path_darwin.c' || echo '$(srcdir)/'`get_my_path_darwin.c
 
+adb-get_my_path_freebsd.o: get_my_path_freebsd.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(adb_CFLAGS) $(CFLAGS) -MT adb-get_my_path_freebsd.o -MD -MP -MF $(DEPDIR)/adb-get_my_path_freebsd.Tpo -c -o adb-get_my_path_freebsd.o `test -f 'get_my_path_freebsd.c' || echo '$(srcdir)/'`get_my_path_freebsd.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/adb-get_my_path_freebsd.Tpo $(DEPDIR)/adb-get_my_path_freebsd.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='get_my_path_freebsd.c' object='adb-get_my_path_freebsd.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(adb_CFLAGS) $(CFLAGS) -c -o adb-get_my_path_freebsd.o `test -f 'get_my_path_freebsd.c' || echo '$(srcdir)/'`get_my_path_freebsd.c
+
 adb-get_my_path_darwin.obj: get_my_path_darwin.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(adb_CFLAGS) $(CFLAGS) -MT adb-get_my_path_darwin.obj -MD -MP -MF $(DEPDIR)/adb-get_my_path_darwin.Tpo -c -o adb-get_my_path_darwin.obj `if test -f 'get_my_path_darwin.c'; then $(CYGPATH_W) 'get_my_path_darwin.c'; else $(CYGPATH_W) '$(srcdir)/get_my_path_darwin.c'; fi`
 @am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/adb-get_my_path_darwin.Tpo $(DEPDIR)/adb-get_my_path_darwin.Po
@@ -581,6 +590,13 @@ adb-usb_linux.o: usb_linux.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='usb_linux.c' object='adb-usb_linux.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(adb_CFLAGS) $(CFLAGS) -c -o adb-usb_linux.o `test -f 'usb_linux.c' || echo '$(srcdir)/'`usb_linux.c
+
+adb-usb_libusb.o: usb_libusb.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(adb_CFLAGS) $(CFLAGS) -MT adb-usb_libusb.o -MD -MP -MF $(DEPDIR)/adb-usb_libusb.Tpo -c -o adb-usb_libusb.o `test -f 'usb_libusb.c' || echo '$(srcdir)/'`usb_libusb.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/adb-usb_libusb.Tpo $(DEPDIR)/adb-usb_libusb.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='usb_libusb.c' object='adb-usb_libusb.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(adb_CFLAGS) $(CFLAGS) -c -o adb-usb_libusb.o `test -f 'usb_libusb.c' || echo '$(srcdir)/'`usb_libusb.c
 
 adb-usb_linux.obj: usb_linux.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(adb_CFLAGS) $(CFLAGS) -MT adb-usb_linux.obj -MD -MP -MF $(DEPDIR)/adb-usb_linux.Tpo -c -o adb-usb_linux.obj `if test -f 'usb_linux.c'; then $(CYGPATH_W) 'usb_linux.c'; else $(CYGPATH_W) '$(srcdir)/usb_linux.c'; fi`

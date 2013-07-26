@@ -37,7 +37,7 @@
 #define   TRACE_TAG  TRACE_USB
 #include "adb.h"
 
-static adb_mutex_t usb_lock = ADB_MUTEX_INITIALIZER;
+adb_mutex_t usb_lock = ADB_MUTEX_INITIALIZER;
 static libusb_context *ctx = NULL;
 
 struct usb_handle

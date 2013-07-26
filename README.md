@@ -16,66 +16,22 @@ script system. I merged the main adb source with some essential libraries
 ===
 INSTRUCTIONS:
 
+Build for FreeBSD 9.x
+
 1. After get the source, you can change the usb_vendor_ids.c to add your VID.
     use debian/gen_udev_rules.sh to generate udev rule for those VID.
 
-2. make
-    build the adb and fastboot
+3. ./configure
 
-3. make install
-    install the adb and fastboot into /usr/bin/ configure the udev
+2. gmake
+    build the adb binary
 
-4. copy 51-android.rules to /etc/udev/rules.d/
+At the moment I have no install process done but you can run adb manually
 
-===
-TO BUILD .DEB PACKAGE
+1. ./adb fork-server server & 
+	Launch the adb server. Check if you have the sufficient permission to read/write to the usb port
+2. ./adb shell [<command>]
+	Open a shell to the connected android device and alternativelly run the <command>
 
-1. Check dpkg tools (dpkg-dev, dh-make, debhelper, fakeroot, etc.)
-
-2. run `dpkg-buildpackage -rfakeroot -b` to generate .deb package
-    (To install the package, you could use `sudo dpkg -i ../adb_x.x.x-1.xxx.deb`)
-
-===
-OR DOWNLOAD the prebuilt package
-
-https://github.com/downloads/karfield/adb/adb_0.1.0-1_amd64.deb
-
-install the deb by graphic installer or command(`sudo dpkg -i xxx.deb`)
-
-For Mac
-===
-
-Howto compile?
-git clone this repo. run
- ./autogen.sh
- make install
-
-to support homebrew use
- 1. brew create https://github.com/downloads/karfield/adb/adb-mac-1.0.1.tgz
-
-Give a name: Adb4Mac
-
- 2. brew edit Adb4Mac
-
-Modify like this:
-    require 'formula'
-
-    class Adb4Mac < Formula
-        homepage 'https://git.hub/karfield/adb/'
-        url 'https://github.com/downloads/karfield/adb/adb-1.0.1.tgz'
-        md5 '308a5476fc096a8a525d07279a6f6aa3' ## dont mod this line, it's auto-gen
-        
-        def install
-           system "./autogen.sh"
-           system "./configure", "--prefix=#{prefix}"
-           system 'make install'
-        end
-    end
-
- 3. brew install Adb4Mac
-
-if you don't compile this on your mac, just download the excutable bin files,
-   copy them (adb and fastboot) into wherever you wannt.
-   OR run install-adb-for-mac.sh(download https://github.com/downloads/karfield/adb/install-adb-for-mac.tar.gz)
 
 Enjoy it!

@@ -24,14 +24,14 @@ Build for FreeBSD 9.x
 3. ./configure
 
 2. gmake
-    build the adb binary
+   to build the adb binary
 
 At the moment I have no install process done but you can run adb manually
 
 1. ./adb fork-server server & 
-	Launch the adb server. Check if you have the sufficient permission to read/write to the usb port
+   Launch the adb server. Check if you have the sufficient permission to read/write to the usb port
 2. ./adb shell [<command>]
-	Open a shell to the connected android device and alternativelly run the <command>
+   Open a shell to the connected android device and alternativelly run the <command>
 
 
 Enjoy it!
